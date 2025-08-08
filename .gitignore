@@ -1,0 +1,9 @@
+.vs/**
+**/x64/**
+Libs/*.zip
+*.vcxproj.user
+Libs/imgui/.*
+Libs/imgui/examples/**
+Libs/imgui/docs/**
+data/*
+imgui.ini

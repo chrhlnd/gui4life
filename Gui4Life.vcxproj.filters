@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{91892ac5-91b7-4ddf-8f4a-648354c7bbe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\Sqlite">
+      <UniqueIdentifier>{427f937e-65c9-40e5-b130-29c80e272d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\ImGui">
+      <UniqueIdentifier>{e4680ef0-013a-43a5-a4da-f4b14b98127b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\ImGui\backend">
+      <UniqueIdentifier>{46466f02-d69d-4964-8455-daee1dd51d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\ImGui\misc">
+      <UniqueIdentifier>{1f73fac6-8c66-463e-9d6a-661ccebdeef9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui.cpp">
+      <Filter>Lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_demo.cpp">
+      <Filter>Lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_draw.cpp">
+      <Filter>Lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_tables.cpp">
+      <Filter>Lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\imgui_widgets.cpp">
+      <Filter>Lib\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>Lib\ImGui\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Lib\ImGui\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\imgui\backends\imgui_impl_dx12.cpp">
+      <Filter>Lib\ImGui\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="tsvdata.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tsvdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\sqlite\sqlite3.c">
+      <Filter>Lib\Sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Libs\imgui\imconfig.h">
+      <Filter>Lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui.h">
+      <Filter>Lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imgui_internal.h">
+      <Filter>Lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imstb_rectpack.h">
+      <Filter>Lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imstb_textedit.h">
+      <Filter>Lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\imstb_truetype.h">
+      <Filter>Lib\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\backends\imgui_impl_win32.h">
+      <Filter>Lib\ImGui\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>Lib\ImGui\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\imgui\backends\imgui_impl_dx12.h">
+      <Filter>Lib\ImGui\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\sqlite\sqlite3.h">
+      <Filter>Lib\Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\sqlite\sqlite3ext.h">
+      <Filter>Lib\Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="config.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libs\imgui\misc\debuggers\imgui.natstepfilter">
+      <Filter>Lib\ImGui\misc</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Libs\imgui\misc\debuggers\imgui.natvis">
+      <Filter>Lib\ImGui\misc</Filter>
+    </Natvis>
+  </ItemGroup>
+</Project>
