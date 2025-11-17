@@ -23,8 +23,9 @@ namespace data
 	{
 		std::string table_name;
 		std::string file_name;
+		std::size_t hash;
 		std::vector<std::string> columns;
-		size_t count;
+		size_t row_count;
 	};
 
 	struct DbMetaData

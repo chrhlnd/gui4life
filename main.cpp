@@ -213,7 +213,7 @@ namespace
 		static const float TEXT_BASE_WIDTH = ImGui::CalcTextSize("A").x;
 		static const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
 
-		int initHeight = table.count > 30 ? 30 : int(table.count);
+		int initHeight = table.row_count > 30 ? 30 : int(table.row_count);
 		int initWidth = table.columns.size() > 50 ? 50 : int(table.columns.size());
 
 		ViewState& viewState = getViewState(db);
@@ -261,7 +261,7 @@ namespace
 			}
 
 			ImGuiListClipper clipper;
-			clipper.Begin(int(table.count));
+			clipper.Begin(int(table.row_count));
 			while (clipper.Step())
 			{
 				auto start = clipper.DisplayStart;
@@ -303,7 +303,6 @@ namespace
 						ImGui::TableNextRow();
 
 						ImGuiSelectableFlags selectable_flags = ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowOverlap;
-
 
 						ImGui::TableNextColumn();
 						char label[32];
@@ -471,7 +470,7 @@ namespace
 
 				name.str("");
 				name.clear();
-				name << tab.table_name << " (" << tab.count << ")";
+				name << tab.table_name << " (" << tab.row_count << ")";
 
 				if (ImGui::TreeNodeEx(name.str().c_str(), child_flags))
 				{

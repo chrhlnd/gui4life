@@ -142,6 +142,7 @@
     <ClCompile Include="Libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Libs\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.hpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Libs\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="Libs\sqlite\sqlite3.h" />
     <ClInclude Include="Libs\sqlite\sqlite3ext.h" />
+    <ClInclude Include="util.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libs\imgui\misc\debuggers\imgui.natstepfilter" />

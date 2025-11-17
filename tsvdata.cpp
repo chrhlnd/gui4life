@@ -2,7 +2,10 @@
 
 #include <algorithm>
 #include <fstream>
+#include <array>
 #include <assert.h>
+
+#include "util.hpp"
 
 namespace
 {
@@ -390,6 +393,8 @@ namespace data
 			throw new file_not_found{path.string()};
 		}
 
+		ret.hash = calcHash(in);
+
 		int lineNo = 0;
 		TableDesc desc{};
 
@@ -419,7 +424,7 @@ namespace data
 
 		insertEnd(db, desc, ctx);
 
-		ret.count = ctx.wrote;
+		ret.row_count = ctx.wrote;
 
 		LOG_TO(logger, path << " loaded " << ctx.wrote << " lines\n");
 

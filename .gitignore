@@ -7,3 +7,5 @@ Libs/imgui/examples/**
 Libs/imgui/docs/**
 data/*
 imgui.ini
+config.db
+/expansion

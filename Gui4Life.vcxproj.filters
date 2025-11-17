@@ -65,6 +65,9 @@
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libs\imgui\imconfig.h">
@@ -101,6 +104,9 @@
       <Filter>Lib\Sqlite</Filter>
     </ClInclude>
     <ClInclude Include="config.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
