@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <stringapiset.h>
 
+
 namespace
 {
 	std::string ws2s(const std::wstring& wstr)
