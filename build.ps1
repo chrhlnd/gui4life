@@ -31,8 +31,11 @@ $links += "-L 'C:\Program Files (x86)\Windows Kits\10\Lib\10.0.26100.0\um\x64'"
 $links += " -ld3d12 -ld3dcompiler -ldxgi -lgdi32 -ldwmapi"
 
 if ("clean" -eq $btype) {
-	rm 'build-win64' -recurse -force
-	throw "Done clean"
+	if (test-path "build-win64") {
+		rm 'build-win64' -recurse -force
+	}
+	write-host "Done clean"
+	exit 0
 }
 
 $buildloc = (join-path 'build-win64' $btype)
@@ -67,7 +70,8 @@ function build_files {
 			write-host ("result: [" + $LASTEXITCODE + "]")
 			if (0 -ne $LASTEXITCODE) {
 				pop-location
-				throw "Had Error " + $LASTEXITCODE + " " + $line
+				write-host "Had Error " $LASTEXITCODE " " $line
+				exit 1
 			}
 		} else {
 			("Already built " + $outfile)
@@ -95,7 +99,8 @@ pop-location
 
 if (0 -ne $LASTEXITCODE) {
 	write-host "failed: " $cmd
-	throw "Had Error " + $LASTEXITCODE
+	write-host "Had Error " $LASTEXITCODE " " $cmd
+	exit 1
 }
 
 write-host "Binary " $buildloc
