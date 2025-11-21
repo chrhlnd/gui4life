@@ -179,8 +179,8 @@ namespace
 		return m_state[key];
 	}
 
-	constexpr int DefaultWidth = 1280;
-	constexpr int DefaultHeight = 800;
+	constexpr int DefaultWidth = 800;
+	constexpr int DefaultHeight = 600;
 
 	std::unordered_map<std::string, std::unique_ptr<data::DbDataSet>> s_data;
 
@@ -202,7 +202,18 @@ namespace
 			ImGui::End();
 			return;
 		}
-
+		
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+		{
+			if ((ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)) &&
+				ImGui::IsKeyDown(ImGuiKey_W))
+			{
+				*opened = false;
+				ImGui::End();
+				return;
+			}
+		}
+		
 		ImGuiTableFlags flags =
 			ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Sortable
 			| ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_NoBordersInBody

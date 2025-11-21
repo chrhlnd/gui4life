@@ -44,6 +44,9 @@ ni -itemtype 'directory' $buildloc -force > $null
 
 $buildloc = (rvpa $buildloc).path
 
+$global:built = 0
+$global:exe = "main.exe"
+
 function build_files {
 	param (
 		[Parameter(Mandatory=$true, Position=0)]
@@ -73,8 +76,13 @@ function build_files {
 				write-host "Had Error " $LASTEXITCODE " " $line
 				exit 1
 			}
+			
+			$global:built = $global:built + 1
 		} else {
 			("Already built " + $outfile)
+			if ((gci $outfile).LastWriteTime -gt (gci (join-path $buildloc $global:exe)).LastWriteTime) {
+				$global:built += 1
+			}
 		}
 	}
 	
@@ -88,14 +96,16 @@ build_files "imgui*.cpp" "./Libs/imgui"
 build_files "sqlite3.c" "./Libs/sqlite" "gcc" ""
 build_files "*.cpp" "./"
 
-push-location $buildloc
+if ($global:built -ne 0) {
+	push-location $buildloc
 
-$list = (gci *.o | %{$_.name})
-$cmd = "&g++ -o main.exe " + [string]::Join(" ",$list) + $includes + $options + $links + " " + $optimize
-write-host "exec: " $cmd
-iex $cmd
+	$list = (gci *.o | %{$_.name})
+	$cmd = "&g++ -o " + $global:exe + " " + [string]::Join(" ",$list) + $includes + $options + $links + " " + $optimize
+	write-host "exec: " $cmd
+	iex $cmd
 
-pop-location
+	pop-location
+}
 
 if (0 -ne $LASTEXITCODE) {
 	write-host "failed: " $cmd
