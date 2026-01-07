@@ -5,9 +5,7 @@
 size_t calcHash(std::ifstream& in)
 {
 	std::array<char, 1024> buffer{};
-
 	std::size_t ret = 0;
-
 	do {
 		in.read(buffer.data(), buffer.size());
 		if (in.gcount())

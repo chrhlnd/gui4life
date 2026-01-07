@@ -10,7 +10,6 @@
 
 namespace data
 {
-
 	struct file_not_found { std::string path; };
 	struct folder_not_found {};
 	struct failed_db_create {};

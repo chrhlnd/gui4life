@@ -1,12 +1,11 @@
 #include "tsvdata.hpp"
-
 #include <algorithm>
 #include <fstream>
 #include <array>
 #include <assert.h>
-
 #include "util.hpp"
 
+// module functions
 namespace
 {
 	struct TableDesc

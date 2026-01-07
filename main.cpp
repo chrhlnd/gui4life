@@ -16,7 +16,6 @@
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
 
-
 #ifdef DX12_ENABLE_DEBUG_LAYER
 #include <dxgidebug.h>
 #pragma comment(lib, "dxguid.lib")
@@ -151,7 +150,6 @@ namespace
 	{
 		bool visible = false;
 		std::string sorts;
-
 		/*
 						ImGuiSelectableFlags selectable_flags = (contents_type == CT_SelectableSpanRow) ? ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowOverlap : ImGuiSelectableFlags_None;
 						if (ImGui::Selectable(label, item_is_selected, selectable_flags, ImVec2(0, row_min_height)))
@@ -215,9 +213,11 @@ namespace
 		}
 		
 		ImGuiTableFlags flags =
-			ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Sortable
-			| ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_NoBordersInBody
-			| ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
+			ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable |
+		   	ImGuiTableFlags_Hideable | ImGuiTableFlags_Sortable |
+			ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
+			ImGuiTableFlags_BordersV | ImGuiTableFlags_NoBordersInBody |
+			ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
 
 		std::string table_view_name = table.table_name;
 		table_view_name.append("_data");
@@ -230,14 +230,21 @@ namespace
 
 		ViewState& viewState = getViewState(db);
 
-		if (ImGui::BeginTable(table_view_name.c_str(), int(table.columns.size()), flags, ImVec2(0, 0/*initHeight * (TEXT_BASE_HEIGHT + 5)*/), 0/*initWidth * TEXT_BASE_WIDTH * 10*/))
+		if (ImGui::BeginTable(
+					table_view_name.c_str(),
+					int(table.columns.size()),
+					flags,
+					ImVec2(0, 0/*initHeight * (TEXT_BASE_HEIGHT + 5)*/), 0/*initWidth * TEXT_BASE_WIDTH * 10*/))
 		{
 			View& view = viewState.views[table_view_name];
 
 			int i = 0;
 			for (const auto& col : table.columns)
 			{
-				ImGui::TableSetupColumn(col.c_str(), (i++ == 0 ? ImGuiTableColumnFlags_NoReorder | ImGuiTableColumnFlags_NoHide : ImGuiTableColumnFlags_None));
+				ImGui::TableSetupColumn(
+						col.c_str(),
+						(i++ == 0 ? ImGuiTableColumnFlags_NoReorder | ImGuiTableColumnFlags_NoHide
+						 		  : ImGuiTableColumnFlags_None));
 			}
 
 			ImGui::TableSetupScrollFreeze(1, 1); // Make row always visible
@@ -282,12 +289,13 @@ namespace
 				bool will_range_select = false;
 				bool range_selecting = false;
 
-				db.GetRows(table, viewState.views[table_view_name].sorts, [&](const std::vector<data::DbDataSet::ValType>& data)
+				db.GetRows(
+					table,
+					viewState.views[table_view_name].sorts,
+					[&](const std::vector<data::DbDataSet::ValType>& data)
 					{
 						int id = std::get<int>(data[0]);
-
 						auto& selection = view.selection;
-
 						if (!will_range_select)
 						{
 							if (!range_selecting && (id == view.select_from || id == view.select_to))
@@ -314,7 +322,8 @@ namespace
 						ImGui::PushID(id);
 						ImGui::TableNextRow();
 
-						ImGuiSelectableFlags selectable_flags = ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowOverlap;
+						ImGuiSelectableFlags selectable_flags =
+							ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowOverlap;
 
 						ImGui::TableNextColumn();
 						char label[32];
@@ -625,8 +634,6 @@ int main(int argc, char* argv[])
 	init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) { return g_pd3dSrvDescHeapAlloc.Free(cpu_handle, gpu_handle); };
 	ImGui_ImplDX12_Init(&init_info);
 
-	bool show_demo_window = false;
-	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 	while (!s_exiting)
@@ -654,9 +661,6 @@ int main(int argc, char* argv[])
 		ImGui_ImplDX12_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-
-		if (show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
 
 		DrawHistoryWindow();
 		DrawDataWindows();

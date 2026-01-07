@@ -1,6 +1,4 @@
-
 #include "config.hpp"
-
 #include <locale>
 #include <assert.h>
 #include <array>
@@ -414,6 +412,4 @@ namespace config
 	{
 		remRows(db, "history", "WHERE row_id = ?", { valueType(id) });
 	}
-
-
 }

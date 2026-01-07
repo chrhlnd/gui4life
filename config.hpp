@@ -5,7 +5,6 @@
 #include <optional>
 #include "sqlite3.h"
 
-
 namespace config
 {
 	struct file_not_found { std::filesystem::path path; };
