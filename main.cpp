@@ -11,6 +11,7 @@
 
 #include "tsvdata.hpp"
 #include "config.hpp"
+#include "cvfile.hpp"
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -577,9 +578,30 @@ int main(int argc, char* argv[])
 	float main_scale = ImGui_ImplWin32_GetDpiScaleForMonitor(::MonitorFromPoint(POINT{ 0, 0 }, MONITOR_DEFAULTTOPRIMARY));
 
 	// Create application window
-	WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"Gui4Life", nullptr };
+	WNDCLASSEXW wc = {
+		sizeof(wc),
+		CS_CLASSDC,
+		WndProc, 0L, 0L,
+		GetModuleHandle(nullptr),
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
+		L"Gui4Life",
+		nullptr };
+
 	::RegisterClassExW(&wc);
-	HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Gui4Life", WS_OVERLAPPEDWINDOW, 100, 100, (int)(DefaultWidth * main_scale), (int)(DefaultHeight * main_scale), nullptr, nullptr, wc.hInstance, nullptr);
+
+	HWND hwnd = ::CreateWindowW(
+			wc.lpszClassName,
+			L"Gui4Life",
+			WS_OVERLAPPEDWINDOW, 100, 100,
+			(int)(DefaultWidth * main_scale),
+			(int)(DefaultHeight * main_scale),
+			nullptr,
+			nullptr,
+			wc.hInstance,
+			nullptr);
 
 	// Initialize Direct3D
 	if (!CreateDeviceD3D(hwnd))
@@ -591,7 +613,6 @@ int main(int argc, char* argv[])
 
 	::ShowWindow(hwnd, SW_SHOWDEFAULT);
 	::UpdateWindow(hwnd);
-
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -606,12 +627,24 @@ int main(int argc, char* argv[])
 
 	// Setup scaling
 	ImGuiStyle& style = ImGui::GetStyle();
-	style.ScaleAllSizes(main_scale);        // Bake a fixed style scale. (until we have a solution for dynamic style scaling, changing this requires resetting Style + calling this again)
-	style.FontScaleDpi = main_scale;        // Set initial font scale. (using io.ConfigDpiScaleFonts=true makes this unnecessary. We leave both here for documentation purpose)
-	io.ConfigDpiScaleFonts = true;          // [Experimental] Automatically overwrite style.FontScaleDpi in Begin() when Monitor DPI changes. This will scale fonts but _NOT_ scale sizes/padding for now.
-	io.ConfigDpiScaleViewports = true;      // [Experimental] Scale Dear ImGui and Platform Windows when Monitor DPI changes.
 
-	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+	// Bake a fixed style scale. (until we have a solution for dynamic style scaling,
+	// changing this requires resetting Style + calling this again)
+	style.ScaleAllSizes(main_scale);
+
+	// Set initial font scale. (using io.ConfigDpiScaleFonts=true makes this unnecessary.
+	// We leave both here for documentation purpose)
+	style.FontScaleDpi = main_scale;
+
+	// [Experimental] Automatically overwrite style.FontScaleDpi in Begin() when Monitor
+	// DPI changes. This will scale fonts but _NOT_ scale sizes/padding for now.
+	io.ConfigDpiScaleFonts = true;
+
+	// [Experimental] Scale Dear ImGui and Platform Windows when Monitor DPI changes.
+	io.ConfigDpiScaleViewports = true;
+
+	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows
+	// can look identical to regular ones.
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		style.WindowRounding = 0.0f;
@@ -630,8 +663,22 @@ int main(int argc, char* argv[])
 	// Allocating SRV descriptors (for textures) is up to the application, so we provide callbacks.
 	// (current version of the backend will only allocate one descriptor, future versions will need to allocate more)
 	init_info.SrvDescriptorHeap = g_pd3dSrvDescHeap;
-	init_info.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_handle) { return g_pd3dSrvDescHeapAlloc.Alloc(out_cpu_handle, out_gpu_handle); };
-	init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) { return g_pd3dSrvDescHeapAlloc.Free(cpu_handle, gpu_handle); };
+	init_info.SrvDescriptorAllocFn =
+		[](
+				ImGui_ImplDX12_InitInfo*,
+				D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle,
+				D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_handle
+		  )
+		{ return g_pd3dSrvDescHeapAlloc.Alloc(out_cpu_handle, out_gpu_handle); };
+
+	init_info.SrvDescriptorFreeFn =
+		[](
+				ImGui_ImplDX12_InitInfo*,
+				D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle,
+				D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle
+		  )
+		{ return g_pd3dSrvDescHeapAlloc.Free(cpu_handle, gpu_handle); };
+
 	ImGui_ImplDX12_Init(&init_info);
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -650,7 +697,9 @@ int main(int argc, char* argv[])
 			break;
 
 		// Handle window screen locked
-		if ((g_SwapChainOccluded && g_pSwapChain->Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) || ::IsIconic(hwnd))
+		if ((g_SwapChainOccluded &&
+					g_pSwapChain->Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED)
+				|| ::IsIconic(hwnd))
 		{
 			::Sleep(10);
 			continue;
@@ -682,11 +731,24 @@ int main(int argc, char* argv[])
 		g_pd3dCommandList->ResourceBarrier(1, &barrier);
 
 		// Render Dear ImGui graphics
-		const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
-		g_pd3dCommandList->ClearRenderTargetView(g_mainRenderTargetDescriptor[backBufferIdx], clear_color_with_alpha, 0, nullptr);
+		const float clear_color_with_alpha[4] = {
+			clear_color.x * clear_color.w,
+			clear_color.y * clear_color.w,
+			clear_color.z * clear_color.w,
+			clear_color.w
+		};
+
+		g_pd3dCommandList->ClearRenderTargetView(
+				g_mainRenderTargetDescriptor[backBufferIdx],
+				clear_color_with_alpha,
+				0,
+				nullptr);
+
 		g_pd3dCommandList->OMSetRenderTargets(1, &g_mainRenderTargetDescriptor[backBufferIdx], FALSE, nullptr);
 		g_pd3dCommandList->SetDescriptorHeaps(1, &g_pd3dSrvDescHeap);
+
 		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), g_pd3dCommandList);
+
 		barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 		g_pd3dCommandList->ResourceBarrier(1, &barrier);
