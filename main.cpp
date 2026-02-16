@@ -13,6 +13,7 @@
 #include "config.hpp"
 #include "cvfile.hpp"
 
+
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
@@ -151,10 +152,6 @@ namespace
 	{
 		bool visible = false;
 		std::string sorts;
-		/*
-						ImGuiSelectableFlags selectable_flags = (contents_type == CT_SelectableSpanRow) ? ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowOverlap : ImGuiSelectableFlags_None;
-						if (ImGui::Selectable(label, item_is_selected, selectable_flags, ImVec2(0, row_min_height)))
-		*/
 		ImVector<int> selection;
 
 		int select_from = -1;
@@ -264,7 +261,9 @@ namespace
 					const auto spec = sort_specs->Specs[i];
 					assert(spec.ColumnIndex < table.columns.size());
 
+					sort.append("[");
 					sort.append(table.columns[spec.ColumnIndex]);
+					sort.append("]");
 					if (spec.SortDirection == ImGuiSortDirection_Ascending)
 						sort.append(" ASC, ");
 					else
@@ -414,6 +413,8 @@ namespace
 				{
 					if (s_data.count(history))
 					{
+						s_opened[history] = s_opened.count(history) && !s_opened[history];
+						/*
 						if (s_opened.count(history) && !s_opened[history])
 						{
 							s_opened[history] = true;
@@ -422,6 +423,7 @@ namespace
 						{
 							s_opened[history] = false;
 						}
+						*/
 					}
 					else
 					{
@@ -498,7 +500,9 @@ namespace
 				{
 					if (ImGui::Button("table"))
 					{
-						viewState.views[tab.table_name].visible = (!viewState.views.count(tab.table_name) || !viewState.views[tab.table_name].visible) ? true : false;
+						viewState.views[tab.table_name].visible =
+							(!viewState.views.count(tab.table_name) ||
+							 !viewState.views[tab.table_name].visible) ? true : false;
 					}
 
 					if (viewState.views[tab.table_name].visible)
